@@ -17,21 +17,17 @@ for _, row in df.iterrows():
     sentence = f"The {row['name-en']} brand has a model called {row['model-name-en']}, which is available as a {row['type-name-en']} type in the years {row['type-years']}."
     
     # Add all features (from 'Gearbox' to the end of the columns)
-    features = []
+    # Add all features (from 'Gearbox' to the end of the columns)
     for col in df.columns[df.columns.get_loc('Gearbox'):]:  # Get all columns starting from 'Gearbox'
         feature_value = row[col]
         if pd.notna(feature_value):  # Only include non-NaN values
             if feature_value is True:  # If the feature is `true`
-                features.append(f"has {col}")
+                entire_text.append(f"the {row['type-name-en']} type of {row['model-name-en']} model of {row['name-en']} brand has {col}")
             elif feature_value is False:  # If the feature is `false`
-                features.append(f"doesn't have {col}")
+                entire_text.append(f"the {row['type-name-en']} type of {row['model-name-en']} model of {row['name-en']} brand doesn't have {col}")
             else:  # For other values (e.g., strings, numbers)
-                features.append(f"{col} = {feature_value}")
-    
-    # Append features to the sentence
-    if features:
-        sentence += " Features includes: " + ", ".join(features) + "."
-    
+                entire_text.append(f"the {col} of the {row['type-name-en']} type of {row['model-name-en']} model of {row['name-en']} brand is {feature_value}")
+       
     # Add the sentence to the list
     entire_text.append(sentence)
 
